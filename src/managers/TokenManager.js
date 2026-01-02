@@ -31,9 +31,9 @@ export class TokenManager {
     }
 
     static awardProgressiveTokens(level) {
-        // Formula: Sum of integers from 1 to semesters, where semester = floor(level / 6)
-        if (level < 6) return;
-        const semesters = Math.floor(level / 6);
+        // Formula: Sum of integers from 1 to semesters, where semester = floor(level / 3)
+        if (level < 3) return;
+        const semesters = Math.floor(level / 3);
         const tokensToAward = (semesters * (semesters + 1)) / 2;
 
         if (tokensToAward > 0) {

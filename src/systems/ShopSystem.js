@@ -7,7 +7,7 @@ export class ShopSystem {
 
     generate() {
         this.game.shopInventory = [];
-        this.game.rerollCost = 5;
+        this.game.rerollCost = 20;
 
         // Filter available jokers (check maxQuantity)
         let availableJokers = JOKERS.filter(j => {
@@ -43,9 +43,9 @@ export class ShopSystem {
     reroll() {
         if (this.game.cash >= this.game.rerollCost) {
             this.game.cash -= this.game.rerollCost;
-            const nextCost = this.game.rerollCost + 5;
-            this.generate();
-            this.game.rerollCost = nextCost;
+            const nextCost = Math.floor(this.game.rerollCost * 1.2);
+            this.generate(); // This resets cost to 20
+            this.game.rerollCost = nextCost; // Restore escalated cost
             return true;
         }
         return false;

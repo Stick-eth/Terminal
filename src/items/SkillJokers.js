@@ -514,13 +514,13 @@ export const SKILL_JOKERS = {
     }),
 
     browser_trade_2: createJoker({
-        id: 'skill_trade_trend',
-        name: { en: '[SKILL] Market Insights', fr: '[SKILL] Analyse Marché' },
-        icon: '📈',
-        description: { en: 'See price trend.', fr: 'Voir tendance prix.' },
+        id: 'skill_trade_volume',
+        name: { en: '[SKILL] Trade Volume', fr: '[SKILL] Volume de Trade' },
+        icon: '💰',
+        description: { en: '+$25 per trade.', fr: '+25$ par trade.' },
         hidden: true,
-        trigger: 'showTradeTrend',
-        execute: () => true
+        trigger: 'calculateTradeBonus',
+        execute: (game, bonus) => bonus + 25
     }),
 
     browser_trade_3: createJoker({
@@ -544,13 +544,13 @@ export const SKILL_JOKERS = {
     }),
 
     browser_trade_5: createJoker({
-        id: 'skill_trade_predict',
-        name: { en: '[SKILL] Insider Info', fr: '[SKILL] Info Privilégiée' },
-        icon: '🔮',
-        description: { en: 'Know next candle.', fr: 'Connaître prochaine bougie.' },
+        id: 'skill_trade_master',
+        name: { en: '[SKILL] Market Master', fr: '[SKILL] Maître du Marché' },
+        icon: '🏆',
+        description: { en: '+50% trade profit.', fr: '+50% profit.' },
         hidden: true,
-        trigger: 'showNextCandle',
-        execute: () => true
+        trigger: 'calculateTradeProfit',
+        execute: (game, profit) => Math.floor(profit * 1.50)
     }),
 
     // ═══════════════════════════════════════════════════════════════
@@ -568,12 +568,18 @@ export const SKILL_JOKERS = {
 
     browser_oc_2: createJoker({
         id: 'skill_oc_calibration',
-        name: { en: '[SKILL] Precision Tuning', fr: '[SKILL] Réglage Précis' },
-        icon: '🎚️',
-        description: { en: 'Easier calibration.', fr: 'Calibration plus facile.' },
+        name: { en: '[SKILL] Precision Bonus', fr: '[SKILL] Bonus Précision' },
+        icon: '💰',
+        description: { en: '+2% cash on calibrate.', fr: '+2% cash au calibrage.' },
         hidden: true,
-        trigger: 'getCalibrationTolerance',
-        execute: (game, tolerance) => tolerance + 10
+        trigger: 'onCalibrate',
+        execute: (game) => {
+            const bonus = Math.floor(game.cash * 0.02);
+            if (bonus > 0) {
+                game.cash += bonus;
+                return { message: `PRECISION: +$${bonus}`, logOnly: true };
+            }
+        }
     }),
 
     browser_oc_3: createJoker({

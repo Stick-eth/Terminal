@@ -578,13 +578,13 @@ export const SKILL_TREE = {
     },
     browser_trade_2: {
         id: 'browser_trade_2',
-        name: { en: 'Market Insights', fr: 'Analyse Marché' },
-        icon: '📈',
-        description: { en: 'See price trend indicator.', fr: 'Voir indicateur de tendance.' },
+        name: { en: 'Trade Volume', fr: 'Volume de Trade' },
+        icon: '💰',
+        description: { en: '+$25 bonus per trade.', fr: '+25$ bonus par trade.' },
         cost: 4,
         requires: ['browser_trade_1'],
         branch: 'browser',
-        effect: { type: 'trade_trend', value: true }
+        effect: { type: 'trade_bonus', value: 25 }
     },
     browser_trade_3: {
         id: 'browser_trade_3',
@@ -608,13 +608,13 @@ export const SKILL_TREE = {
     },
     browser_trade_5: {
         id: 'browser_trade_5',
-        name: { en: 'Insider Info', fr: 'Info Privilégiée' },
-        icon: '🔮',
-        description: { en: 'Know next candle color.', fr: 'Connaître la prochaine couleur.' },
+        name: { en: 'Market Master', fr: 'Maître du Marché' },
+        icon: '🏆',
+        description: { en: '+50% trade profit.', fr: '+50% profit de trade.' },
         cost: 15,
         requires: ['browser_trade_4'],
         branch: 'browser',
-        effect: { type: 'trade_predict', value: true }
+        effect: { type: 'trade_profit_bonus', value: 0.50 }
     },
 
     // ═══════════════════════════════════════════════════════════════
@@ -632,13 +632,13 @@ export const SKILL_TREE = {
     },
     browser_oc_2: {
         id: 'browser_oc_2',
-        name: { en: 'Precision Tuning', fr: 'Réglage Précis' },
-        icon: '🎚️',
-        description: { en: 'Easier calibration targets.', fr: 'Cibles de calibration plus faciles.' },
+        name: { en: 'Precision Bonus', fr: 'Bonus Précision' },
+        icon: '💰',
+        description: { en: '+2% cash on calibration.', fr: '+2% cash à chaque calibration.' },
         cost: 4,
         requires: ['browser_oc_1'],
         branch: 'browser',
-        effect: { type: 'oc_calibration_easy', value: 0.20 }
+        effect: { type: 'oc_calibrate_bonus', value: 0.02 }
     },
     browser_oc_3: {
         id: 'browser_oc_3',

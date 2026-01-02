@@ -54,8 +54,13 @@ export function renderTrading(game) {
 
         const candles = game.tradingCandles;
         if (candles.length === 0) return;
-        const highs = candles.map(c => c.high);
-        const lows = candles.map(c => c.low);
+
+        // Filter out invalid candles (with 0 or undefined high/low values)
+        const validCandles = candles.filter(c => c.high > 0 && c.low > 0 && c.open > 0 && c.close > 0);
+        if (validCandles.length === 0) return;
+
+        const highs = validCandles.map(c => c.high);
+        const lows = validCandles.map(c => c.low);
         const max = Math.max(...highs);
         const min = Math.min(...lows);
         const range = Math.max(1, max - min);
@@ -64,16 +69,16 @@ export function renderTrading(game) {
         const chartHeight = chart.clientHeight || 256;
         const pad = 8;
         const areaH = Math.max(10, chartHeight - pad * 2);
-        const candleWidth = Math.max(4, Math.min(18, Math.floor((chartWidth - pad * 2) / Math.max(1, candles.length))));
-        const totalWidth = candleWidth * candles.length;
+        const candleWidth = Math.max(4, Math.min(18, Math.floor((chartWidth - pad * 2) / Math.max(1, validCandles.length))));
+        const totalWidth = candleWidth * validCandles.length;
         const startX = Math.max(pad, chartWidth - totalWidth - pad);
 
         const scale = (v) => ((v - min) / range) * areaH;
 
-        candles.forEach((c, idx) => {
+        validCandles.forEach((c, idx) => {
             const bar = document.createElement('div');
             bar.className = 'absolute';
-            if (idx === candles.length - 1) {
+            if (idx === validCandles.length - 1) {
                 bar.classList.add('candle-new');
             }
             const x = startX + idx * candleWidth;

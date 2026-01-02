@@ -7,14 +7,20 @@ export function renderShop(game, handlers, currentLang) {
 
     game.shopInventory.forEach(item => {
         const el = document.createElement('div');
-        el.className = 'bg-black border border-purple-700 p-4 flex flex-col gap-2 hover:border-purple-500 transition-colors shadow-[0_0_5px_rgba(168,85,247,0.1)]';
+
+        // Check if player already owns this joker
+        const owned = game.jokers.find(j => j.id === item.id);
+        const ownedGlow = owned ? 'ring-2 ring-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.3)]' : '';
+
+        el.className = `bg-black border border-purple-700 p-4 flex flex-col gap-2 hover:border-purple-500 transition-colors shadow-[0_0_5px_rgba(168,85,247,0.1)] ${ownedGlow}`;
 
         const isAffordable = game.cash >= item.price;
         const typeColor = item.type === 'passive' ? 'text-green-400' : 'text-cyan-400';
+        const ownedBadge = owned ? `<span class="text-xs text-yellow-500 ml-2">✓ x${owned.quantity}</span>` : '';
 
         el.innerHTML = `
             <div class="flex justify-between items-start">
-                <h4 class="font-bold ${typeColor}">${getLoc(item.name, currentLang)}</h4>
+                <h4 class="font-bold ${typeColor}">${getLoc(item.name, currentLang)}${ownedBadge}</h4>
                 <span class="text-xs bg-purple-900/20 px-2 py-1 border border-purple-800 text-purple-400">$${item.price}</span>
             </div>
             <p class="text-sm text-purple-300/70 flex-1">${getLoc(item.description, currentLang)}</p>

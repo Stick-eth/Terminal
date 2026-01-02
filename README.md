@@ -1,5 +1,5 @@
 📄 GDD : Framework de Design des Items (Jokers & Scripts)
-Ce document définit la structure standard pour la création de contenu dans Binary Hustle. Chaque item doit respecter ces règles pour garantir l'équilibre, la lisibilité et la faisabilité technique.
+Ce document définit la structure standard pour la création de contenu dans TERMINAL. Chaque item doit respecter ces règles pour garantir l'équilibre, la lisibilité et la faisabilité technique.
 1. Structure Atomique (Les 5 Piliers)
 Chaque item est un objet défini par 5 attributs clés.
 🆔 1. L'Identité (Flavor & Meta)

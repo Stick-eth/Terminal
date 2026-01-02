@@ -97,4 +97,12 @@ export const elements = {
     antivirusStartOverlay: document.getElementById('antivirus-start-overlay'),
     antivirusTimer: document.getElementById('antivirus-timer'),
     antivirusScore: document.getElementById('antivirus-score'),
+
+    // Extraction Modal
+    extractionModal: document.getElementById('extraction-modal'),
+    extractionTokens: document.getElementById('extraction-tokens'),
+    extractionBonus: document.getElementById('extraction-bonus'),
+    extractionTotal: document.getElementById('extraction-total'),
+    extractBtn: document.getElementById('extract-btn'),
+    continueBtn: document.getElementById('continue-btn'),
 };

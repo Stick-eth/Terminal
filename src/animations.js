@@ -1,22 +1,40 @@
 import { elements } from './dom.js';
 
+// Speed boost state for terminal animations
+let speedBoost = false;
+const SPEED_MULTIPLIER = 5;
+
 export function runTerminalSequence(lines, onComplete, speed = 50, waitForUser = false) {
     elements.bootText.innerHTML = '';
     if (elements.bootContinueBtn) elements.bootContinueBtn.classList.add('hidden');
     let lineIndex = 0;
     let skipped = false;
+    speedBoost = false;
+
+    // Speed boost listeners
+    const enableSpeedBoost = () => { speedBoost = true; };
+    window.addEventListener('keydown', enableSpeedBoost);
+    window.addEventListener('mousedown', enableSpeedBoost);
+
+    function cleanup() {
+        window.removeEventListener('keydown', enableSpeedBoost);
+        window.removeEventListener('mousedown', enableSpeedBoost);
+        speedBoost = false;
+    }
 
     // Expose skip function globally for dev tools
     window.skipTerminalSequence = () => {
         if (skipped) return;
         skipped = true;
+        cleanup();
         onComplete();
     };
-    
+
     function typeLine() {
         if (skipped) return;
 
         if (lineIndex >= lines.length) {
+            cleanup();
             if (waitForUser && elements.bootContinueBtn) {
                 elements.bootContinueBtn.classList.remove('hidden');
                 elements.bootContinueBtn.onclick = () => {
@@ -28,12 +46,12 @@ export function runTerminalSequence(lines, onComplete, speed = 50, waitForUser =
             }
             return;
         }
-        
+
         const line = lines[lineIndex];
         const p = document.createElement('div');
         p.className = 'mb-1';
         elements.bootText.appendChild(p);
-        
+
         let charIndex = 0;
         const interval = setInterval(() => {
             if (skipped) {
@@ -45,27 +63,28 @@ export function runTerminalSequence(lines, onComplete, speed = 50, waitForUser =
             if (charIndex >= line.length) {
                 clearInterval(interval);
                 lineIndex++;
-                setTimeout(typeLine, 100); // Pause between lines
+                const pauseTime = speedBoost ? 100 / SPEED_MULTIPLIER : 100;
+                setTimeout(typeLine, pauseTime);
             }
-        }, speed / 2); // Faster typing for boot
+        }, speedBoost ? (speed / 2) / SPEED_MULTIPLIER : speed / 2);
     }
-    
+
     typeLine();
 }
 
 export function startTitleAnimation() {
     const homeTitle = elements.homeTitle;
     if (!homeTitle) return;
-    
-    const titleText = "BINARY HUSTLE";
+
+    const titleText = "TERMINAL";
     const glitchChars = "!<>-_\\/[]{}—=+*^?#________";
     let currentIndex = 0;
-    
+
     // Typing Phase
     const typeInterval = setInterval(() => {
         homeTitle.textContent = titleText.substring(0, currentIndex) + '█';
         currentIndex++;
-        
+
         if (currentIndex > titleText.length) {
             clearInterval(typeInterval);
             homeTitle.textContent = titleText;
@@ -82,21 +101,21 @@ export function startGlitchEffect(element, originalText, chars) {
 
         const glitchCount = Math.floor(Math.random() * 2) + 1; // 1 or 2 chars
         let glitchedText = originalText.split('');
-        
+
         for (let i = 0; i < glitchCount; i++) {
             const index = Math.floor(Math.random() * originalText.length);
             if (originalText[index] !== ' ') {
                 glitchedText[index] = chars[Math.floor(Math.random() * chars.length)];
             }
         }
-        
+
         element.textContent = glitchedText.join('');
-        
+
         // Reset quickly
         setTimeout(() => {
             element.textContent = originalText;
         }, 50 + Math.random() * 100);
-        
+
     }, 150);
 }
 
@@ -112,7 +131,7 @@ const GLITCH_CHARS = "!<>-_\\/[]{}—=+*^?#________";
 export function updateVisualEffects(game) {
     // Allow effects in most states except boot/intro sequences
     const effectsAllowed = !['ARC_INTRO', 'BOOT', 'LEVEL_TRANSITION'].includes(game.gameState);
-    
+
     if (!effectsAllowed) {
         stopVisualEffects();
         return;
@@ -155,15 +174,15 @@ export function updateVisualEffects(game) {
 
     if (game.systemOverheatLevel > 20) {
         // Overheat creates a shaking/heat effect similar to 'overclock' but independent
-        systemEffect = 'overclock'; 
+        systemEffect = 'overclock';
         // Intensity scales from 0 at 20% to 1.0 at 100%
-        systemIntensity = (game.systemOverheatLevel - 20) / 80; 
+        systemIntensity = (game.systemOverheatLevel - 20) / 80;
     }
 
     // Update State
     if (arcEffect !== currentArcEffect || Math.abs(arcIntensity - currentArcIntensity) > 0.01 ||
         systemEffect !== currentSystemEffect || Math.abs(systemIntensity - currentSystemIntensity) > 0.01) {
-        
+
         currentArcEffect = arcEffect;
         currentArcIntensity = arcIntensity;
         currentSystemEffect = systemEffect;
@@ -188,9 +207,9 @@ function clearEffects() {
     }
     // Reset Styles
     document.body.classList.remove('animate-shake', 'animate-pulse-red');
-    document.body.style.filter = ''; 
+    document.body.style.filter = '';
     document.body.style.transform = 'none';
-    
+
     const overlay = document.getElementById('effect-overlay');
     if (overlay) {
         overlay.className = 'pointer-events-none fixed inset-0 z-[40] hidden';
@@ -205,7 +224,7 @@ function startEffectLoop() {
     if (!currentArcEffect && !currentSystemEffect) return;
 
     const overlay = getOverlay();
-    overlay.innerHTML = ''; 
+    overlay.innerHTML = '';
     overlay.classList.remove('hidden');
     overlay.style.background = '';
 
@@ -213,7 +232,7 @@ function startEffectLoop() {
     if (currentArcEffect === 'audit') {
         overlay.innerHTML += `<div class="absolute top-4 right-4 border border-red-500 text-red-500 px-2 py-1 text-xs animate-pulse">REC ●</div>`;
         if (currentArcIntensity > 0.5) {
-             overlay.innerHTML += `<div class="absolute inset-0 border-4 border-red-500/20 pointer-events-none"></div>`;
+            overlay.innerHTML += `<div class="absolute inset-0 border-4 border-red-500/20 pointer-events-none"></div>`;
         }
     } else if (currentArcEffect === 'ransomware') {
         overlay.innerHTML += `<div class="absolute top-4 left-1/2 -translate-x-1/2 border border-red-500 bg-red-900/20 text-red-500 px-4 py-1 text-sm font-bold animate-pulse">🔒 FILES ENCRYPTED</div>`;
@@ -232,7 +251,7 @@ function performCombinedEffects() {
     if (currentArcEffect === 'audit') performAuditEffect(currentArcIntensity);
     if (currentArcEffect === 'botnet') performBotnetEffect(currentArcIntensity);
     if (currentArcEffect === 'ransomware') performRansomwareEffect(currentArcIntensity);
-    
+
     // Arc 'overclock' contributes to shake/heat
     if (currentArcEffect === 'overclock') {
         shakeIntensity = Math.max(shakeIntensity, currentArcIntensity);
@@ -258,14 +277,14 @@ function performCombinedEffects() {
         // We should be careful not to clear other overlay elements.
         // Let's just reset the background property used for heat.
         if (overlay.style.background.includes('radial-gradient')) {
-             overlay.style.background = '';
+            overlay.style.background = '';
         }
     }
 }
 
 function applyPhysicalEffects(shakeIntensity, heatIntensity) {
     const body = document.body;
-    
+
     // Shake
     if (Math.random() < shakeIntensity * 0.5) {
         const x = (Math.random() - 0.5) * shakeIntensity * 10;
@@ -279,7 +298,7 @@ function applyPhysicalEffects(shakeIntensity, heatIntensity) {
     const overlay = getOverlay();
     if (heatIntensity > 0) {
         overlay.style.background = `radial-gradient(circle, transparent 50%, rgba(255, 69, 0, ${heatIntensity * 0.3}))`;
-        
+
         // Occasional "WARNING" flash
         if (heatIntensity > 0.7 && Math.random() < 0.05) {
             const warning = document.createElement('div');
@@ -337,7 +356,7 @@ function performGlobalGlitch(intensity) {
         }).join('');
 
         el.textContent = glitched;
-        
+
         if (intensity > 0.3) {
             el.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
             el.style.color = Math.random() > 0.5 ? '#ef4444' : '#22c55e';
@@ -357,7 +376,7 @@ function performGlobalGlitch(intensity) {
 function performBotnetEffect(intensity) {
     if (Math.random() > intensity) return;
     const overlay = getOverlay();
-    
+
     if (Math.random() < 0.3) {
         const packet = document.createElement('div');
         packet.className = 'absolute w-2 h-2 bg-cyan-500 rounded-full shadow-[0_0_5px_cyan]';
@@ -416,7 +435,7 @@ function performRansomwareEffect(intensity) {
         document.body.style.filter = 'invert(1)';
         setTimeout(() => { document.body.style.filter = 'none'; }, 100 + Math.random() * 200);
     }
-    
+
     // 4. Reuse Global Glitch
     if (Math.random() < intensity * 0.5) {
         performGlobalGlitch(intensity);

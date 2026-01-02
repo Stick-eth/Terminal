@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>Binary Hustle - Hacker Roguelike Game</title>
-    <meta name="title" content="Binary Hustle - Hacker Roguelike Game" />
+    <title>TERMINAL
+    </title>
+    <meta name="title" content="TERMINAL" />
     <meta name="description"
-        content="Dive into the underground world of Binary Hustle. Guess numbers, earn cash, pay rent, and survive in this retro hacker-themed roguelike game." />
-    <meta name="keywords" content="binary hustle, hacker game, roguelike, number guessing, terminal game, retro game" />
+        content="Wake up to a terminal. Play. Pay. Survive. A mysterious roguelike where you are trapped in an endless loop." />
+    <meta name="keywords" content="terminal game, roguelike, mystery game, hacker game, number guessing, retro game" />
     <meta name="author" content="Stick" />
     <meta name="theme-color" content="#00ff00" />
 
@@ -20,16 +21,16 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Binary Hustle - Hacker Roguelike Game" />
+    <meta property="og:title" content="TERMINAL - A Mysterious Roguelike" />
     <meta property="og:description"
-        content="Dive into the underground world of Binary Hustle. Guess numbers, earn cash, pay rent, and survive in this retro hacker-themed roguelike game." />
+        content="Wake up to a terminal. Play. Pay. Survive. A mysterious roguelike where you are trapped in an endless loop." />
     <meta property="og:image" content="/logo.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Binary Hustle - Hacker Roguelike Game" />
+    <meta property="twitter:title" content="TERMINAL - A Mysterious Roguelike" />
     <meta property="twitter:description"
-        content="Dive into the underground world of Binary Hustle. Guess numbers, earn cash, pay rent, and survive in this retro hacker-themed roguelike game." />
+        content="Wake up to a terminal. Play. Pay. Survive. A mysterious roguelike where you are trapped in an endless loop." />
     <meta property="twitter:image" content="/logo.png" />
 </head>
 
@@ -678,9 +679,9 @@
         <div class="lg:col-span-1 flex flex-col gap-4">
             <!-- Header -->
             <header class="text-center lg:text-left mb-4 border-b-2 border-green-500 pb-2">
-                <h1 id="game-title" class="text-4xl font-bold tracking-tighter mb-1 text-green-500 uppercase">Binary
-                    Hustle<span id="title-cursor" class="animate-pulse">_</span></h1>
-                <p class="text-green-700 text-sm uppercase tracking-widest">v1.0.0 // TERMINAL_ACCESS</p>
+                <h1 id="game-title" class="text-4xl font-bold tracking-tighter mb-1 text-green-500 uppercase">
+                    TERMINAL<span id="title-cursor" class="animate-pulse">_</span></h1>
+                <p class="text-green-700 text-sm uppercase tracking-widest">v1.0.0 // SYSTEM_ACCESS</p>
             </header>
 
             <!-- Stats Panel -->
@@ -876,6 +877,44 @@
 
         </div>
     </div>
+
+    <!-- EXTRACTION CHOICE MODAL -->
+    <div id="extraction-modal"
+        class="hidden fixed inset-0 z-[80] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="w-full max-w-md bg-black border-2 border-green-500 p-6 shadow-[0_0_30px_rgba(0,255,0,0.3)]">
+            <div class="text-center mb-6 border-b border-green-900 pb-4">
+                <h2 class="text-2xl font-bold text-green-500 uppercase tracking-widest mb-2">EXTRACTION PROTOCOL</h2>
+                <p class="text-green-700 text-sm">"You've survived another cycle. What now?"</p>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div class="flex justify-between items-center p-3 border border-green-800 bg-green-900/10">
+                    <span class="text-green-600 uppercase text-sm">Fragments Collected</span>
+                    <span id="extraction-tokens" class="text-2xl font-bold text-green-400">0</span>
+                </div>
+                <div class="flex justify-between items-center p-3 border border-yellow-800 bg-yellow-900/10">
+                    <span class="text-yellow-600 uppercase text-sm">Extraction Bonus (+100%)</span>
+                    <span id="extraction-bonus" class="text-2xl font-bold text-yellow-400">+0</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button id="extract-btn"
+                    class="w-full py-4 font-bold text-lg transition-colors border-2 bg-green-900/20 hover:bg-green-500 hover:text-black text-green-400 border-green-500 uppercase tracking-wider">
+                    [ EXTRACT ] - Secure <span id="extraction-total">0</span> Fragments
+                </button>
+                <button id="continue-btn"
+                    class="w-full py-3 font-bold text-sm transition-colors border bg-black hover:bg-red-900/30 text-red-500 border-red-800 uppercase tracking-wider">
+                    [ CONTINUE ] - Risk for more...
+                </button>
+            </div>
+
+            <p class="text-center text-green-900 text-xs mt-4 italic">
+                "Leave now, and keep what you've stolen. Stay, and risk it all."
+            </p>
+        </div>
+    </div>
+
     <!-- CRT Effect Overlay -->
     <div class="crt-overlay" aria-hidden="true"></div>
 

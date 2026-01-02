@@ -25,7 +25,7 @@ export class Game {
         this.jokers = []; // Active jokers
         this.scripts = []; // Active scripts
         this.shopInventory = [];
-        this.rerollCost = 5;
+        this.rerollCost = 20;
 
         this.message = { key: 'welcome_hustle' };
         this.history = [];
@@ -75,6 +75,9 @@ export class Game {
 
         this.uniqueGuesses = new Set(); // For Blockchain Joker
         this.logs = []; // Persisted System Logs
+
+        // Extraction System (Cashout)
+        this.pendingTokens = 0; // Tokens accumulated this run (not yet awarded)
 
         // Initialize Systems
         this.shopSystem = new ShopSystem(this);
@@ -666,7 +669,7 @@ export class Game {
     enterNewMonth() {
         this.level++;
         this.round = 1;
-        this.rent = Math.floor(this.rent * 1.3); // Exponential rent
+        this.rent = Math.floor(this.rent * 1.4); // Exponential rent (increased from 1.3)
         this.newMonthStarted = true;
         this.monthBossPersistent = null;
         this.monthBossAnnounced = false;
@@ -954,7 +957,7 @@ export class Game {
         this.absoluteMax = data.absoluteMax;
         this.burningThreshold = data.burningThreshold || 5;
         this.history = data.history || [];
-        this.rerollCost = data.rerollCost || 5;
+        this.rerollCost = data.rerollCost || 20;
         this.bossEffect = data.bossEffect;
 
         // Restore Logs

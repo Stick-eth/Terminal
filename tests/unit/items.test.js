@@ -40,7 +40,7 @@ describe('Item Logic', () => {
         expect(newGain).toBe(baseGain * 4);
     });
 
-    it('should apply Glitch Hunter effect (3 or 7)', () => {
+    it('should apply Memory Leak effect (3 or 7)', () => {
         const scanner = JOKERS.find(j => j.id === 'glitch_hunter');
         game.jokers.push(scanner);
 
@@ -51,7 +51,7 @@ describe('Item Logic', () => {
         // Better: check execute return value manually
         const res3 = scanner.execute(game);
         expect(res3).toBeTruthy();
-        expect(res3.message).toContain('GLITCH');
+        expect(res3.message).toContain('LEAK');
 
         game.mysteryNumber = 71;
         const res7 = scanner.execute(game);
@@ -183,5 +183,59 @@ describe('Item Logic', () => {
         const cashBefore = game.cash;
         result = darkWeb.execute(game);
         expect(game.cash).toBe(cashBefore + 50);
+    });
+});
+
+describe('Shop Reroll Cost', () => {
+    let game;
+
+    beforeEach(() => {
+        game = new Game();
+        game.log = vi.fn();
+        game.startRun();
+        game.generateShop();
+    });
+
+    it('should start with $20 reroll cost', () => {
+        expect(game.rerollCost).toBe(20);
+    });
+
+    it('should multiply reroll cost by 1.2 after each reroll', () => {
+        game.cash = 1000;
+
+        // First reroll: 20 -> 24
+        game.rerollShop();
+        expect(game.rerollCost).toBe(24); // Math.floor(20 * 1.2)
+
+        // Second reroll: 24 -> 28
+        game.rerollShop();
+        expect(game.rerollCost).toBe(28); // Math.floor(24 * 1.2)
+
+        // Third reroll: 28 -> 33
+        game.rerollShop();
+        expect(game.rerollCost).toBe(33); // Math.floor(28 * 1.2)
+    });
+
+    it('should reset reroll cost to $20 on new round (shop generation)', () => {
+        game.cash = 1000;
+
+        // Reroll a few times
+        game.rerollShop();
+        game.rerollShop();
+        expect(game.rerollCost).toBeGreaterThan(20);
+
+        // Generate new shop (like entering a new round)
+        game.generateShop();
+        expect(game.rerollCost).toBe(20);
+    });
+
+    it('should deduct correct cost when rerolling', () => {
+        game.cash = 100;
+
+        game.rerollShop();
+        expect(game.cash).toBe(80); // 100 - 20
+
+        game.rerollShop();
+        expect(game.cash).toBe(56); // 80 - 24
     });
 });

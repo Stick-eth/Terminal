@@ -162,7 +162,17 @@ function render() {
         UI.renderShop(game, { handleBuy }, settings.currentLang);
     } else if (game.gameState === 'TRADING') {
         UI.renderTrading(game);
+    } else if (game.gameState === 'EXTRACTION_CHOICE') {
+        // Show extraction modal
+        elements.extractionModal?.classList.remove('hidden');
+        if (elements.extractionTokens) elements.extractionTokens.textContent = game.pendingTokens;
+        if (elements.extractionBonus) elements.extractionBonus.textContent = `+${game.pendingTokens}`;
+        if (elements.extractionTotal) elements.extractionTotal.textContent = game.pendingTokens * 2;
+        return; // Don't update other UI while in extraction choice
     }
+
+    // Hide extraction modal if not in extraction choice
+    elements.extractionModal?.classList.add('hidden');
 
     // Force Boss Message Update if in Boss Round
     if (game.gameState === 'PLAYING' && game.round === game.maxRounds && game.bossEffect) {
@@ -289,9 +299,24 @@ function handleNext() {
             elements.bootScreen.classList.add('hidden');
             elements.app.classList.remove('hidden');
 
-            game.enterNewMonth();
+            // Calculate pending tokens for this run
+            const currentLevel = game.level + 1; // Next level
+            if (currentLevel >= 3) {
+                const semesters = Math.floor(currentLevel / 3);
+                game.pendingTokens = (semesters * (semesters + 1)) / 2;
+            }
+
+            // Show extraction choice
+            game.gameState = 'EXTRACTION_CHOICE';
             render();
         }, 40, true);
+        return;
+    }
+
+    // Handle Extraction Choice
+    if (game.gameState === 'EXTRACTION_CHOICE') {
+        // This is handled by render() showing the extraction modal
+        render();
         return;
     }
 
@@ -315,6 +340,11 @@ function triggerGameOverCutscene() {
         setTimeout(() => {
             // Clear screen (Black)
             if (elements.bootText) elements.bootText.innerHTML = '';
+            // Award normal tokens (no bonus since player lost)
+            if (game.pendingTokens > 0) {
+                TokenManager.addToken(game.pendingTokens);
+                game.pendingTokens = 0;
+            }
             // Wait again
             setTimeout(() => {
                 // Soft reset to home
@@ -322,6 +352,36 @@ function triggerGameOverCutscene() {
             }, 2000);
         }, 3000);
     }, 40, false);
+}
+
+// Extraction handlers
+function handleExtract() {
+    // Award tokens with +100% bonus
+    const bonusTokens = game.pendingTokens * 2;
+    if (bonusTokens > 0) {
+        TokenManager.addToken(bonusTokens);
+    }
+    game.pendingTokens = 0;
+
+    // Show extraction success message
+    elements.app.classList.add('hidden');
+    elements.bootScreen.classList.remove('hidden');
+
+    const extractMsg = settings.currentLang === 'fr'
+        ? [`> EXTRACTION RÉUSSIE`, `> Fragments récupérés: ${bonusTokens}`, ``, `"Tu t'échappes. Pour l'instant."`]
+        : [`> EXTRACTION SUCCESSFUL`, `> Fragments recovered: ${bonusTokens}`, ``, `"You escape. For now."`];
+
+    Animations.runTerminalSequence(extractMsg, () => {
+        setTimeout(() => {
+            softReset();
+        }, 2000);
+    }, 40, false);
+}
+
+function handleContinue() {
+    // Continue playing - no bonus, but can earn more
+    game.enterNewMonth();
+    render();
 }
 
 function handleBuy(id) {
@@ -556,6 +616,10 @@ if (elements.antivirusStartBtn) elements.antivirusStartBtn.addEventListener('cli
 if (elements.tradingBuyBtn) elements.tradingBuyBtn.addEventListener('click', handleTradingBuy);
 if (elements.tradingSellBtn) elements.tradingSellBtn.addEventListener('click', handleTradingSell);
 
+// Extraction Modal
+if (elements.extractBtn) elements.extractBtn.addEventListener('click', handleExtract);
+if (elements.continueBtn) elements.continueBtn.addEventListener('click', handleContinue);
+
 const appSystemBtn = document.getElementById('app-system-btn');
 const systemBackBtn = document.getElementById('system-back-btn');
 const systemCalibrateBtn = document.getElementById('system-calibrate-btn');
@@ -754,7 +818,18 @@ if (elements.homeStartBtn) {
         elements.homeScreen.classList.add('hidden');
         elements.bootScreen.classList.remove('hidden');
 
-        const lore = settings.currentLang === 'fr' ? Localization.loreSequenceFr : Localization.loreSequenceEn;
+        // Get and increment session counter (starts at random high number)
+        let sessionNumber = parseInt(localStorage.getItem('terminal_session') || '0');
+        if (sessionNumber === 0) {
+            // First time: random number between 100,000 and 999,999
+            sessionNumber = Math.floor(Math.random() * 900000) + 100000;
+        }
+        sessionNumber++;
+        localStorage.setItem('terminal_session', sessionNumber.toString());
+
+        const lore = settings.currentLang === 'fr'
+            ? Localization.getLoreSequenceFr(sessionNumber)
+            : Localization.getLoreSequenceEn(sessionNumber);
 
         Animations.runTerminalSequence(lore, () => {
             elements.bootScreen.classList.add('hidden');
@@ -1114,7 +1189,7 @@ render();
 // ═══════════════════════════════════════════════════════════════
 // TITLE TERMINAL TYPING ANIMATION
 // ═══════════════════════════════════════════════════════════════
-const TITLE_TEXT = 'Binary Hustle';
+const TITLE_TEXT = 'TERMINAL';
 const GLITCH_CHARS = '!@#$%^&*()_+-=[]{}|;:,.<>?0123456789';
 
 function initTitleAnimation() {

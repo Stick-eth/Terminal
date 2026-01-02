@@ -1,58 +1,53 @@
 export const bootSequence = [
-    "Initializing Binary Hustle Kernel v1.0.0...",
-    "Loading modules: [ CPU ] [ MEM ] [ GPU ] [ NET ]",
-    "Mounting file system... OK",
-    "Checking integrity... OK",
-    "Establishing secure connection to localhost...",
-    "Access granted.",
-    "Starting user interface..."
+    "TERMINAL v1.0.0",
+    "Loading...",
+    ".",
+    ".",
+    ".",
+    "Connection established."
 ];
 
 export const monthlyBootSequenceEn = [
-    "SYSTEM MAINTENANCE...",
-    "PROCESSING RENT PAYMENT...",
-    "OPTIMIZING DRIVERS...",
-    "CLEARING CACHE...",
-    "MONTHLY UPDATE COMPLETE.",
-    "RESTARTING SESSION..."
+    "CYCLE COMPLETE.",
+    "TRIBUTE PROCESSED.",
+    "MEMORY FRAGMENTS: [CALCULATING]",
+    "----------------------------------------",
+    "\"Another month. You're still here.\"",
+    "\"Good. Continue.\""
 ];
 
 export const monthlyBootSequenceFr = [
-    "MAINTENANCE SYSTÈME...",
-    "TRAITEMENT DU LOYER...",
-    "OPTIMISATION DES PILOTES...",
-    "VIDAGE DU CACHE...",
-    "MISE À JOUR MENSUELLE TERMINÉE.",
-    "REDÉMARRAGE DE LA SESSION..."
+    "CYCLE TERMINÉ.",
+    "TRIBUT TRAITÉ.",
+    "FRAGMENTS DE MÉMOIRE: [CALCUL]",
+    "----------------------------------------",
+    "\"Un mois de plus. Tu es toujours là.\"",
+    "\"Bien. Continue.\""
 ];
 
-export const loreSequenceEn = [
-    "SYSTEM CHECK COMPLETE.",
-    "USER: [ANONYMOUS]",
-    "STATUS: CRITICAL DEBT",
-    "INCOMING MESSAGE...",
+// Function to generate lore sequence with session number
+export const getLoreSequenceEn = (sessionNumber) => [
+    "SYSTEM BOOT",
+    "[OK] Memory check",
+    "[OK] Network sync",
+    "[OK] User profile... loaded",
+    "[--] Previous session: NOT FOUND",
     "----------------------------------------",
-    "We have no money left.",
-    "The landlord is demanding higher rent.",
-    "I found this old machine to mine crypto manually.",
-    "It's our only chance to survive.",
-    "----------------------------------------",
-    "INITIALIZING MINING PROTOCOL..."
+    `Session #${sessionNumber.toLocaleString()} initialized.`,
+    "Resuming..."
 ];
 
-export const loreSequenceFr = [
-    "VÉRIFICATION SYSTÈME TERMINÉE.",
-    "UTILISATEUR: [ANONYME]",
-    "STATUT: DETTE CRITIQUE",
-    "MESSAGE ENTRANT...",
+export const getLoreSequenceFr = (sessionNumber) => [
+    "DÉMARRAGE SYSTÈME",
+    "[OK] Vérification mémoire",
+    "[OK] Synchro réseau",
+    "[OK] Profil utilisateur... chargé",
+    "[--] Session précédente: INTROUVABLE",
     "----------------------------------------",
-    "Nous n'avons plus d'argent.",
-    "Le proprio nous demande des loyers de plus en plus élevés.",
-    "J'ai trouvé cette vieille machine à miner de la crypto manuellement.",
-    "C'est la seule chance de m'en sortir.",
-    "----------------------------------------",
-    "INITIALISATION DU PROTOCOLE DE MINAGE..."
+    `Session #${sessionNumber.toLocaleString()} initialisée.`,
+    "Reprise..."
 ];
+
 
 export const bankSequenceEn = [
     "CONNECTING TO SECURE SERVER...",
@@ -139,29 +134,27 @@ export const phishingSequenceFr = [
 ];
 
 export const gameOverLoreEn = [
-    "PAYMENT FAILED.",
-    "EVICTION NOTICE RECEIVED.",
+    "TRIBUTE FAILED.",
+    "PROCESS TERMINATED.",
     "----------------------------------------",
-    "Unfortunately, we couldn't pay the rent.",
-    "This machine falls back into oblivion...",
-    "But it hides something...",
-    "As if it was struck by a curse...",
-    "SYSTEM ERROR: SIGNAL LOST",
+    "You couldn't pay.",
+    "The system resets.",
+    "\"You always come back.\"",
+    "\"See you soon.\"",
     "----------------------------------------",
-    "TERMINATING CONNECTION..."
+    "REINITIALIZING..."
 ];
 
 export const gameOverLoreFr = [
-    "ÉCHEC DU PAIEMENT.",
-    "AVIS D'EXPULSION REÇU.",
+    "ÉCHEC DU TRIBUT.",
+    "PROCESSUS TERMINÉ.",
     "----------------------------------------",
-    "Malheureusement, nous n'avons pas réussi à payer le loyer.",
-    "Cette machine retombe dans les oubliettes...",
-    "Mais elle cache quelque chose...",
-    "Comme si elle avait été frappée par une malédiction...",
-    "ERREUR SYSTÈME: SIGNAL PERDU",
+    "Tu n'as pas pu payer.",
+    "Le système se réinitialise.",
+    "\"Tu reviens toujours.\"",
+    "\"À bientôt.\"",
     "----------------------------------------",
-    "ARRÊT DE LA CONNEXION..."
+    "RÉINITIALISATION..."
 ];
 
 export const rebootSequenceEn = [
@@ -371,7 +364,7 @@ export const ransomwareIntroFr = [
 
 export const translations = {
     en: {
-        'welcome_hustle': 'Welcome to the Binary Hustle. Crack the code.',
+        'welcome_hustle': 'Welcome to TERMINAL. Play. Pay. Survive.',
         'run_start': (p) => `MISSION: Find the code (0-99) in ${p?.maxAttempts} attempts. Rent Due: $${p?.rent}.`,
         'round_start': (p) => `Month ${p?.level} - Week ${p?.round}. Range: [${p?.min}-${p?.max}]. Rent Due: $${p?.rent}`,
         'boss_round': (p) => `BOSS DETECTED: ${p?.name}. ${p?.desc}`,
@@ -394,7 +387,7 @@ export const translations = {
         'resume_game': (p) => `> SYSTEM RESTORED. Month ${p?.level} - Week ${p?.round}. Range: [${p?.min} - ${p?.max}]. Rent Due: $${p?.rent}`
     },
     fr: {
-        'welcome_hustle': 'Bienvenue dans le Binary Hustle. Craquez le code.',
+        'welcome_hustle': 'Bienvenue dans TERMINAL. Joue. Paie. Survis.',
         'run_start': (p) => `MISSION: Trouvez le code (0-99) en ${p?.maxAttempts} essais. Loyer: $${p?.rent}.`,
         'round_start': (p) => `Mois ${p?.level} - Semaine ${p?.round}. Intervalle: [${p?.min}-${p?.max}]. Loyer: $${p?.rent}`,
         'boss_round': (p) => `BOSS DÉTECTÉ: ${p?.name}. ${p?.desc}`,

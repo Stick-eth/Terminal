@@ -61,18 +61,18 @@ export const JOKERS = [
     // --- INFO & LOGIC JOKERS ---
     createJoker({
         id: 'parity_check',
-        name: { en: 'Parity Check', fr: 'Parity Check' },
+        name: { en: 'Echo Protocol', fr: 'Protocole Echo' },
         icon: '⚖️',
         description: { en: 'Permanently indicates if mystery number is EVEN or ODD.', fr: 'Indique en permanence si le nombre mystère est PAIR ou IMPAIR.' },
         maxQuantity: 1,
         trigger: 'onRoundStart',
         execute: (game) => {
-            return { message: `PARITY: ${game.mysteryNumber % 2 === 0 ? 'EVEN' : 'ODD'}`, logOnly: true };
+            return { message: `ECHO: ${game.mysteryNumber % 2 === 0 ? 'EVEN' : 'ODD'}`, logOnly: true };
         }
     }),
     createJoker({
         id: 'modulo_operator',
-        name: { en: 'Modulo Operator', fr: 'Modulo Operator' },
+        name: { en: 'Modulo Operator', fr: 'Opérateur Modulo' },
         icon: '➗',
         description: { en: 'Reveals the last digit of the mystery number.', fr: 'Révèle le dernier chiffre du nombre mystère (Unités).' },
         price: 15,
@@ -89,7 +89,7 @@ export const JOKERS = [
         icon: '🔢',
         description: { en: 'Reveals the sum of digits of the mystery number (e.g., 42 → 6).', fr: 'Révèle la somme des chiffres du nombre mystère (ex: 42 → 6).' },
         price: 12,
-        rarity: 'uncommon',
+        rarity: 'rare',
         maxQuantity: 1,
         trigger: 'onRoundStart',
         execute: (game) => {
@@ -99,7 +99,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'root_access',
-        name: { en: 'Root Access', fr: 'Root Access' },
+        name: { en: 'Genesis Key', fr: 'Clé Genesis' },
         icon: '#️⃣',
         description: { en: 'At round start, reduces interval range by 1.5x.', fr: 'Au début du round, réduit la taille de l\'intervalle de 1.5x.' },
         price: 12,
@@ -134,7 +134,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'glitch_hunter',
-        name: { en: 'Glitch Hunter', fr: 'Glitch Hunter' },
+        name: { en: 'Memory Leak', fr: 'Fuite Mémoire' },
         icon: '👾',
         description: { en: 'If mystery number contains "3" or "7", it is visually marked.', fr: 'Si le nombre mystère contient un "3" ou un "7", il est marqué visuellement.' },
         price: 5,
@@ -143,14 +143,14 @@ export const JOKERS = [
         execute: (game) => {
             const str = game.mysteryNumber.toString();
             if (str.includes('7') || str.includes('3')) {
-                return { message: 'GLITCH: Number contains "3" or "7"', logOnly: true };
+                return { message: 'LEAK: Number contains "3" or "7"', logOnly: true };
             }
         }
     }),
     // --- RNG MANIPULATION JOKERS ---
     createJoker({
         id: 'even_flow',
-        name: { en: 'Even Flow', fr: 'Even Flow' },
+        name: { en: 'Binary Dream', fr: 'Rêve Binaire' },
         icon: '🌊',
         description: { en: 'Mystery numbers will ALWAYS be Even.', fr: 'Les nombres mystères seront TOUJOURS Pairs.' },
         price: 10,
@@ -160,13 +160,13 @@ export const JOKERS = [
         execute: (game, candidate) => candidate % 2 === 0,
         hooks: {
             onRoundStart: (game) => {
-                return { message: 'EVEN FLOW: Mystery Number is EVEN', logOnly: true };
+                return { message: 'BINARY DREAM: Mystery Number is EVEN', logOnly: true };
             }
         }
     }),
     createJoker({
         id: 'odd_flow',
-        name: { en: 'Odd Flow', fr: 'Odd Flow' },
+        name: { en: 'Fragmented Path', fr: 'Chemin Fragmenté' },
         icon: '🌊',
         description: { en: 'Mystery numbers will ALWAYS be Odd.', fr: 'Les nombres mystères seront TOUJOURS Impairs.' },
         price: 10,
@@ -175,13 +175,13 @@ export const JOKERS = [
         execute: (game, candidate) => candidate % 2 === 1,
         hooks: {
             onRoundStart: (game) => {
-                return { message: 'ODD FLOW: Mystery Number is ODD', logOnly: true };
+                return { message: 'FRAGMENTED: Mystery Number is ODD', logOnly: true };
             }
         }
     }),
     createJoker({
         id: 'lazy_dev',
-        name: { en: 'Lazy Dev', fr: 'Lazy Dev' },
+        name: { en: 'Shortcut.exe', fr: 'Raccourci.exe' },
         icon: '💤',
         description: { en: 'Mystery number always multiple of 10. Gains halved. Max Attempts -25%.', fr: 'Le nombre mystère est un multiple de 10. Gains / 2. Essais Max -25%.' },
         price: 12,
@@ -211,7 +211,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'memory_leak',
-        name: { en: 'Memory Leak', fr: 'Memory Leak' },
+        name: { en: 'Memory Leak', fr: 'Fuite Mémoire' },
         icon: '💧',
         description: { en: 'Score x3, but -1 Max Attempt each won round (min 3).', fr: 'Score x3, mais -1 Essai Max à chaque round gagné (min 3).' },
         price: 10,
@@ -256,7 +256,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'mirror_dimension',
-        name: { en: 'Mirror Dimension', fr: 'Mirror Dimension' },
+        name: { en: 'Mirror Dimension', fr: 'Dimension Miroir' },
         icon: '🪞',
         description: { en: 'Gain x2 if you guess the reverse number before winning.', fr: 'Gain x2 si vous devinez l\'inverse du nombre avant de gagner (ex: 45 avant 54).' },
         price: 12,
@@ -279,7 +279,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'high_roller',
-        name: { en: 'High Roller', fr: 'High Roller' },
+        name: { en: 'High Roller', fr: 'Flambeur' },
         icon: '🎰',
         description: { en: 'Win 2x the mystery number value as bonus.', fr: 'Gagnez 2x la valeur du nombre mystère en bonus.' },
         price: 18,
@@ -291,7 +291,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'yield_protocol',
-        name: { en: 'Yield Protocol', fr: 'Yield Protocol' },
+        name: { en: 'Yield Protocol', fr: 'Protocole de Rendement' },
         icon: '📈',
         description: { en: 'Earn 10% interest on current cash on win.', fr: 'Gagnez 10% d\'intérêts sur votre cash actuel à chaque victoire.' },
         price: 15,
@@ -307,7 +307,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'volatility_engine',
-        name: { en: 'Volatility Engine', fr: 'Volatility Engine' },
+        name: { en: 'Volatility Engine', fr: 'Moteur de Volatilité' },
         icon: '📉',
         description: { en: 'Range becomes 0 - [Your Cash]. Win = Mystery Number amount.', fr: 'La range devient 0 - [Votre Cash]. Victoire = Gagnez le montant du nombre secret.' },
         price: 20,
@@ -324,7 +324,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'heuristic_scanner',
-        name: { en: 'Heuristic Scanner', fr: 'Heuristic Scanner' },
+        name: { en: 'Heuristic Scanner', fr: 'Scanner Heuristique' },
         icon: '📡',
         description: { en: 'Tightens range by extra 10% on miss.', fr: 'Réduit l\'écart des bornes de 10% supplémentaires après chaque erreur.' },
         price: 12,
@@ -480,7 +480,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'dark_web',
-        name: { en: 'Dark Web', fr: 'Dark Web' },
+        name: { en: 'Shadow Cache', fr: 'Cache Ombre' },
         icon: '🕸️',
         description: { en: 'Earn 2% daily interest (capped at $50).', fr: 'Gagnez 2% d\'intérêts quotidiens (max 50$).' },
         price: 15,
@@ -490,13 +490,13 @@ export const JOKERS = [
             const interest = Math.min(50, Math.floor(game.cash * 0.02));
             if (interest > 0) {
                 game.cash += interest;
-                return { message: `DARK WEB: +$${interest}`, logOnly: true };
+                return { message: `SHADOW CACHE: +$${interest}`, logOnly: true };
             }
         }
     }),
     createJoker({
         id: 'neural_network',
-        name: { en: 'Neural Network', fr: 'Reseau Neuronal' },
+        name: { en: 'Neural Network', fr: 'Réseau Neuronal' },
         icon: '🧠',
         description: { en: 'Gain multiplier increases by 0.1 each round.', fr: 'Le multiplicateur de gain augmente de 0.1 chaque round.' },
         price: 12,
@@ -516,7 +516,7 @@ export const JOKERS = [
     // --- NEW COMMON JOKERS ---
     createJoker({
         id: 'bug_bounty',
-        name: { en: 'Bug Bounty', fr: 'Bug Bounty' },
+        name: { en: 'Bug Bounty', fr: 'Prime aux Bugs' },
         icon: '🐛',
         description: { en: 'Gain 2% of Rent on win (Min $5).', fr: 'Gagnez 2% du Loyer par victoire (Min 5$).' },
         price: 4,
@@ -530,7 +530,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'junior_dev',
-        name: { en: 'Junior Dev', fr: 'Junior Dev' },
+        name: { en: 'Junior Dev', fr: 'Développeur Junior' },
         icon: '👶',
         description: { en: 'Gain 1% of Rent on buy (Min $2).', fr: 'Gagnez 1% du Loyer à l\'achat (Min 2$).' },
         price: 5,
@@ -544,7 +544,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'clean_code',
-        name: { en: 'Clean Code', fr: 'Clean Code' },
+        name: { en: 'Clean Code', fr: 'Code Propre' },
         icon: '🧹',
         description: { en: 'Gain 1% of Rent at round start (Min $2).', fr: 'Gagnez 1% du Loyer au début du round (Min 2$).' },
         price: 6,
@@ -558,7 +558,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'patch_tuesday',
-        name: { en: 'Patch Tuesday', fr: 'Patch Tuesday' },
+        name: { en: 'Patch Tuesday', fr: 'Mise à Jour du Mardi' },
         icon: '📅',
         description: { en: 'Max Range reduced by Level.', fr: 'Borne Max réduite du Niveau actuel.' },
         price: 4,
@@ -570,7 +570,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'legacy_support',
-        name: { en: 'Legacy Support', fr: 'Legacy Support' },
+        name: { en: 'Legacy Support', fr: 'Support Hérité' },
         icon: '🏛️',
         description: { en: 'Min Range increased by Level.', fr: 'Borne Min augmentée du Niveau actuel.' },
         price: 4,
@@ -582,7 +582,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'unit_test',
-        name: { en: 'Unit Test', fr: 'Unit Test' },
+        name: { en: 'Unit Test', fr: 'Test Unitaire' },
         icon: '✅',
         description: { en: 'Gain 0.5% of Rent on ODD guess (Min $1).', fr: 'Gagnez 0.5% du Loyer sur IMPAIR (Min 1$).' },
         price: 5,
@@ -598,7 +598,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'code_review',
-        name: { en: 'Code Review', fr: 'Code Review' },
+        name: { en: 'Code Review', fr: 'Revue de Code' },
         icon: '👓',
         description: { en: 'Gain 0.5% of Rent on EVEN guess (Min $1).', fr: 'Gagnez 0.5% du Loyer sur PAIR (Min 1$).' },
         price: 5,
@@ -614,7 +614,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'refactoring',
-        name: { en: 'Refactoring', fr: 'Refactoring' },
+        name: { en: 'Refactoring', fr: 'Refactorisation' },
         icon: '♻️',
         description: { en: 'Gain 1% of Rent on sell (Min $2).', fr: 'Gagnez 1% du Loyer à la vente (Min 2$).' },
         price: 5,
@@ -725,7 +725,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'script_kiddie',
-        name: { en: 'Script Kiddie', fr: 'Script Kiddie' },
+        name: { en: 'Script Kiddie', fr: 'Pirate Novice' },
         icon: '🧸',
         description: { en: '10% chance to recycle used scripts (Max 50%).', fr: '10% de chance de recycler les scripts utilisés (Max 50%).' },
         price: 12,
@@ -779,7 +779,7 @@ export const JOKERS = [
     }),
     createJoker({
         id: 'blockchain',
-        name: { en: 'Blockchain', fr: 'Blockchain' },
+        name: { en: "Architect's Ledger", fr: 'Registre de l\'Architecte' },
         icon: '🔗',
         description: { en: 'Gain $1 for every unique guess made this run.', fr: 'Gagnez 1$ pour chaque nombre unique deviné dans cette partie.' },
         price: 15,
@@ -788,7 +788,7 @@ export const JOKERS = [
         execute: (game) => {
             const bonus = game.uniqueGuesses.size;
             game.cash += bonus;
-            return { message: `BLOCKCHAIN: +$${bonus}`, logOnly: true };
+            return { message: `LEDGER: +$${bonus}`, logOnly: true };
         }
     })
 ];

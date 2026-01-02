@@ -101,15 +101,15 @@ describe('Game Logic', () => {
     });
 
     it('should reroll shop correctly', () => {
-        game.cash = 10;
-        game.rerollCost = 2;
+        game.cash = 100;
+        game.rerollCost = 20; // New base cost
         game.shopInventory = [{ id: 'old', uniqueId: 1 }];
 
         const result = game.rerollShop();
 
         expect(result).toBe(true);
-        expect(game.cash).toBe(8);
-        expect(game.rerollCost).toBe(7); // +5 per reroll (2+5=7)
+        expect(game.cash).toBe(80); // 100 - 20
+        expect(game.rerollCost).toBe(24); // Math.floor(20 * 1.2) = 24
         expect(game.shopInventory.length).toBeGreaterThan(0);
         expect(game.shopInventory[0].id).not.toBe('old');
     });
