@@ -230,7 +230,8 @@ body {
 /* Main CRT container - wraps the entire app */
 .crt-container {
   position: relative;
-  border-radius: 12px;
+  min-height: 100vh;
+  min-width: 100vw;
   overflow: hidden;
   background: #000;
 }
